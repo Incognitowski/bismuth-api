@@ -19,4 +19,12 @@ open class BaseModel : Serializable {
     @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     lateinit var updatedAt: Date;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "softdeleted_at", nullable = true)
+    var softdeletedAt: Date? = null;
+
+    @Column(name = "softdeleted", nullable = false)
+    var isSoftdeleted: Boolean = false;
+
 }
