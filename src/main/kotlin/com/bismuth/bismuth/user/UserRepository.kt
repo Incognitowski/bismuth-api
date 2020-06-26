@@ -10,6 +10,12 @@ import java.util.*
 interface UserRepository : JpaRepository<User, UUID> {
 
     @Query(value = "SELECT * FROM public.user WHERE username = :username", nativeQuery = true)
-    fun findByUsername(@Param("username") username: String): User?
+    fun findByUsername(@Param(value = "username") username: String): User?;
+
+    @Query(value = "SELECT * FROM public.user WHERE email = :email", nativeQuery = true)
+    fun findByEmail(@Param(value = "email") email: String): User?;
+
+    @Query(value = "SELECT * FROM public.user WHERE softdeleted = false", nativeQuery = true)
+    override fun findAll(): MutableList<User>;
 
 };
