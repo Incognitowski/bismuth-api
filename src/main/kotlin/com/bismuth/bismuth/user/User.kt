@@ -21,5 +21,7 @@ data class User(
         @Column(name = "email")
         var email: String,
         @Column(name = "password")
-        var password: String
+        var password: String,
+        @Column(name = "suspended")
+        var suspended: Boolean = false
 ) : BaseModel();
