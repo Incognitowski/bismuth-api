@@ -12,6 +12,12 @@ interface UserRepository : JpaRepository<User, UUID> {
     @Query(value = "SELECT * FROM public.user WHERE username = :username", nativeQuery = true)
     fun findByUsername(@Param(value = "username") username: String): User?;
 
+    @Query(value = "SELECT * FROM public.user WHERE username = :username AND password = :password", nativeQuery = true)
+    fun findByUsernameAndPassword(
+            @Param(value = "username") username: String,
+            @Param(value = "password") password: String
+    ): User?;
+
     @Query(value = "SELECT * FROM public.user WHERE email = :email", nativeQuery = true)
     fun findByEmail(@Param(value = "email") email: String): User?;
 
