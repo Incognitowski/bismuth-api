@@ -1,6 +1,5 @@
 package com.bismuth.bismuth.framework.advices
 
-import com.bismuth.bismuth.framework.exception.EntityNotFoundException
 import com.bismuth.bismuth.framework.exception.InvalidUsernamePasswordException
 import com.bismuth.bismuth.framework.response.BaseExceptionResponse
 import org.springframework.http.HttpStatus

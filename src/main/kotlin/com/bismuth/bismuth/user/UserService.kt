@@ -4,7 +4,6 @@ import com.auth0.jwt.interfaces.DecodedJWT
 import com.bismuth.bismuth.framework.exception.EntityNotFoundException
 import com.bismuth.bismuth.framework.exception.UniqueConstraintException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
