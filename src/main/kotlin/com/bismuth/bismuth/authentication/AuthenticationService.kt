@@ -6,6 +6,7 @@ import com.bismuth.bismuth.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import javax.servlet.http.HttpServletRequest
 
 @Service
 class AuthenticationService {
@@ -19,5 +20,11 @@ class AuthenticationService {
             throw InvalidUsernamePasswordException("Incorrect username or password");
         return AuthenticationSuccessfulPOKO(JwtUtils.createJWT(user));
     }
+
+    fun checkIfJWTIsValid(request: HttpServletRequest) {
+        val jwt: String = request.getHeader("Authorization")  ?: "Yup, totally invalid token...";
+        JwtUtils.retrieveTokenInformation(jwt);
+    }
+
 
 }

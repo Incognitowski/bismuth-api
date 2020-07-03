@@ -1,9 +1,8 @@
 package com.bismuth.bismuth.authentication
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 class AuthenticationController {
@@ -14,6 +13,11 @@ class AuthenticationController {
     @PostMapping("login")
     fun attemptAuthentication(@RequestBody authenticationPOKO: AuthenticationPOKO): AuthenticationSuccessfulPOKO {
         return authenticationService.attemptAuthentication(authenticationPOKO);
+    }
+
+    @GetMapping("jwt")
+    fun checkJWTValidity(request: HttpServletRequest) {
+        return authenticationService.checkIfJWTIsValid(request);
     }
 
 }

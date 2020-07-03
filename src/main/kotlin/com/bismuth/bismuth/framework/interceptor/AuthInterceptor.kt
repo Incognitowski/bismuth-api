@@ -23,13 +23,8 @@ class AuthInterceptor : HandlerInterceptor {
                     "/user",
                     // so the user can authenticate
                     "/login",
-                    // to return the project structure if it is public
-                    "/project/{projectId}",
-                    // to return the project applications if the project is public
-                    "/project/{projectId}/application",
-                    "/project/{projectId}/application/{applicationId}",
-                    // to return the application if it is public
-                    "/project/{projectId}/application/{applicationId}"
+                    // so the user can validate his jwt
+                    "/jwt"
             );
         }
     }
