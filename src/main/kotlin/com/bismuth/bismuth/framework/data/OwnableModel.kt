@@ -1,27 +1,16 @@
 package com.bismuth.bismuth.framework.data
 
-import com.bismuth.bismuth.user.User
-import javax.persistence.JoinColumn
-import javax.persistence.OneToOne
+import java.util.*
+import javax.persistence.Column
+import javax.persistence.MappedSuperclass
 
-
+@MappedSuperclass
 open class OwnableModel : BaseModel() {
+    @Column(name = "created_by")
+    @org.hibernate.annotations.Type(type = "pg-uuid")
+    public var createdBy: UUID? = null;
 
-    @OneToOne
-    @JoinColumn(
-            name = "created_by",
-            nullable = false,
-            referencedColumnName = "user_id"
-    )
-    var createdBy: User? = null;
-
-    @OneToOne
-    @JoinColumn(
-            name = "owned_by",
-            nullable = false,
-            referencedColumnName = "user_id"
-    )
-    var ownedBy: User? = null;
-
-
+    @Column(name = "owned_by")
+    @org.hibernate.annotations.Type(type = "pg-uuid")
+    public var ownedBy: UUID? = null;
 }

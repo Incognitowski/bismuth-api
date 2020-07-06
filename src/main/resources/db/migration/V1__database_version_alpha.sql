@@ -79,10 +79,10 @@ ALTER TYPE public."projectVisibility" OWNER TO postgres;
 -- DROP TABLE IF EXISTS public.project_visibility CASCADE;
 CREATE TABLE public.project_visibility
 (
-    project_visibility_id uuid                       NOT NULL,
-    project_id            uuid                       NOT NULL,
-    user_id               uuid                       NOT NULL,
-    visibility            public."projectVisibility" NOT NULL DEFAULT 'STAKEHOLDER',
+    project_visibility_id uuid                   NOT NULL,
+    project_id            uuid                   NOT NULL,
+    user_id               uuid                   NOT NULL,
+    visibility            character varying(255) NOT NULL DEFAULT 'STAKEHOLDER',
 -- 	created_at timestamp with time zone NOT NULL DEFAULT now(),
 -- 	updated_at timestamp with time zone,
 -- 	softdeleted bool NOT NULL DEFAULT false,
@@ -108,10 +108,10 @@ ALTER TYPE public."applicationVisibility" OWNER TO postgres;
 -- DROP TABLE IF EXISTS public.application_visibility CASCADE;
 CREATE TABLE public.application_visibility
 (
-    application_visibility_id uuid                           NOT NULL,
-    application_id            uuid                           NOT NULL,
-    user_id                   uuid                           NOT NULL,
-    visibility                public."applicationVisibility" NOT NULL DEFAULT 'STAKEHOLDER',
+    application_visibility_id uuid                   NOT NULL,
+    application_id            uuid                   NOT NULL,
+    user_id                   uuid                   NOT NULL,
+    visibility                character varying(255) NOT NULL DEFAULT 'STAKEHOLDER',
 -- 	created_at timestamp with time zone NOT NULL DEFAULT now(),
 -- 	updated_at timestamp with time zone,
 -- 	softdeleted bool NOT NULL DEFAULT false,

@@ -1,6 +1,7 @@
 package com.bismuth.bismuth.user
 
 import com.bismuth.bismuth.framework.data.BaseModel
+import com.bismuth.bismuth.project.Project
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.util.*
 import javax.persistence.*
