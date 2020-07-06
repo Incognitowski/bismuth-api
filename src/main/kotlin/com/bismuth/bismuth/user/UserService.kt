@@ -18,6 +18,7 @@ class UserService {
 
     fun createUser(user: User): User {
         user.user_id = UUID.randomUUID();
+        UserBO.validate(user);
         user.password = BCryptPasswordEncoder().encode(user.password);
         if (userRepository.findByUsername(user.username as String) != null)
             throw UniqueConstraintException("Sorry, but that username is not available.");
