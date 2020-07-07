@@ -2,6 +2,7 @@ package com.bismuth.bismuth.project.visibility
 
 import com.bismuth.bismuth.framework.authentication.Auth
 import com.bismuth.bismuth.project.Project
+import com.bismuth.bismuth.user.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -29,6 +30,10 @@ class ProjectVisibilityService {
                 user.user_id!!,
                 "OWNER"
         ));
+    }
+
+    fun getVisibilityOf(user: User, project: Project): ProjectVisibility? {
+        return projectVisibilityRepository.getVisibilityOf(user.user_id!!, project.project_id!!);
     }
 
 }

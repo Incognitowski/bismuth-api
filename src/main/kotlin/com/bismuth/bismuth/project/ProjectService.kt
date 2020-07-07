@@ -2,11 +2,8 @@ package com.bismuth.bismuth.project
 
 import com.bismuth.bismuth.framework.authentication.Auth
 import com.bismuth.bismuth.framework.exception.EntityNotFoundException
-import com.bismuth.bismuth.project.events.ProjectEvent
 import com.bismuth.bismuth.project.events.ProjectEventService
-import com.bismuth.bismuth.project.visibility.ProjectVisibility
 import com.bismuth.bismuth.project.visibility.ProjectVisibilityService
-import com.bismuth.bismuth.user.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -60,8 +57,9 @@ class ProjectService {
 
     fun update(project: Project, projectId: UUID): Project {
         val originalProject = getById(projectId).copy();
+        val user = Auth.getAuthenticatedUser(request);
         ProjectBO.validate(project);
-        // todo VALIDATE IF USER CAN UPDATE THIS
+        ProjectGuardian.onUser(user).protectEditingOf(originalProject);
         projectRepository.save(project);
         projectEventService.createEventsForUpdate(project, originalProject);
         return project;
@@ -70,7 +68,7 @@ class ProjectService {
     fun delete(projectId: UUID) {
         val project = getById(projectId);
         val user = Auth.getAuthenticatedUser(request);
-        // todo VALIDATE IF USER CAN DELETE THIS
+        ProjectGuardian.onUser(user).protectDeletionOf(project);
         project.isSoftdeleted = true;
         project.softdeletedAt = Date();
         update(project, projectId);
