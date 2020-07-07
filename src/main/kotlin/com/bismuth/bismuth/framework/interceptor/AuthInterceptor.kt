@@ -2,6 +2,7 @@ package com.bismuth.bismuth.framework.interceptor
 
 import com.bismuth.bismuth.framework.authentication.Auth
 import com.bismuth.bismuth.framework.authentication.JwtUtils
+import com.bismuth.bismuth.framework.exception.AuthenticationRequiredException
 import com.bismuth.bismuth.user.User
 import com.bismuth.bismuth.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,6 +31,8 @@ class AuthInterceptor : HandlerInterceptor {
     }
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+        if (request.getHeader("Authorization") == null)
+            throw AuthenticationRequiredException("You must be authenticated in order to consume this resource.");
         val jwt: String = request.getHeader("Authorization");
         val user: User = userService.getByDecodedJWT(JwtUtils.retrieveTokenInformation(jwt));
         Auth.injectAuthenticatedUser(user, request);
