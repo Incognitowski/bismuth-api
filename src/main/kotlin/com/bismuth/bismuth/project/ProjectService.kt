@@ -1,14 +1,19 @@
 package com.bismuth.bismuth.project
 
 import com.bismuth.bismuth.framework.authentication.Auth
+import com.bismuth.bismuth.framework.data.PageCommons
 import com.bismuth.bismuth.framework.exception.EntityNotFoundException
 import com.bismuth.bismuth.project.events.ProjectEventService
 import com.bismuth.bismuth.project.visibility.ProjectVisibilityService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
+
 
 @Service
 @Transactional
@@ -45,9 +50,10 @@ class ProjectService {
         return project.get();
     }
 
-    fun getAllVisibleForUser(): List<Project> {
+    fun getAllVisibleForUser(pageable: Pageable): Page<Project> {
         val user = Auth.getAuthenticatedUser(request);
-        return projectRepository.getByUserId(user.user_id!!);
+        val listOfProjects = projectRepository.getByUserId(user.user_id!!);
+        return PageCommons.getPaged(pageable, listOfProjects);
     }
 
     fun searchByDescription(searchString: String): List<Project> {

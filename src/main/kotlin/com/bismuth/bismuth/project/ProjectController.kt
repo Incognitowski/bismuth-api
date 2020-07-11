@@ -1,6 +1,8 @@
 package com.bismuth.bismuth.project
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.transaction.Transactional
@@ -43,7 +45,9 @@ class ProjectController {
     }
 
     @GetMapping
-    fun getAllVisibleProjects(): List<Project> = projectService.getAllVisibleForUser()
+    fun getAllVisibleProjects(pageable: Pageable): Page<Project> {
+        return projectService.getAllVisibleForUser(pageable)
+    }
 
     @DeleteMapping("/{projectId}")
     fun deleteProject(
