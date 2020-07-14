@@ -26,14 +26,14 @@ class ProjectVisibilityService {
         val user = Auth.getAuthenticatedUser(request);
         create(ProjectVisibility(
                 null,
-                project.project_id!!,
+                project.projectId!!,
                 user.user_id!!,
                 "OWNER"
         ));
     }
 
     fun getVisibilityOf(user: User, project: Project): ProjectVisibility? {
-        return projectVisibilityRepository.getVisibilityOf(user.user_id!!, project.project_id!!);
+        return projectVisibilityRepository.getVisibilityOf(user.user_id!!, project.projectId!!);
     }
 
 }

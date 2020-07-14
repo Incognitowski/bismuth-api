@@ -7,7 +7,6 @@ import com.bismuth.bismuth.project.events.ProjectEventService
 import com.bismuth.bismuth.project.visibility.ProjectVisibilityService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.*
@@ -33,7 +32,7 @@ class ProjectService {
 
     fun create(project: Project): Project {
         val user = Auth.getAuthenticatedUser(request);
-        project.project_id = UUID.randomUUID();
+        project.projectId = UUID.randomUUID();
         project.createdBy = user.user_id;
         project.ownedBy = user.user_id;
         ProjectBO.validate(project);

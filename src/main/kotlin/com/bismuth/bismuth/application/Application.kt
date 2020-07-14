@@ -1,4 +1,4 @@
-package com.bismuth.bismuth.project
+package com.bismuth.bismuth.application
 
 import com.bismuth.bismuth.framework.data.OwnableModel
 import java.util.*
@@ -9,18 +9,19 @@ import javax.persistence.Table
 
 @Entity
 @Table(
-        name = "project",
+        name = "application",
         schema = "public"
 )
-data class Project(
+data class Application(
         @Id
+        @Column(name = "application_id")
+        @org.hibernate.annotations.Type(type = "pg-uuid")
+        var applicationId: UUID?,
+        @Column(name = "name")
+        var name: String,
         @Column(name = "project_id")
         @org.hibernate.annotations.Type(type = "pg-uuid")
         var projectId: UUID?,
-        @Column(name = "name")
-        var name: String,
-        @Column(name = "active")
-        var active: Boolean,
         @Column(name = "is_publicly_visible")
-        var isPubliclyVisible: Boolean
+        var isPubliclyVisible: Boolean = false
 ) : OwnableModel();

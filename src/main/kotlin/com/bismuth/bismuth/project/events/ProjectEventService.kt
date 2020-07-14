@@ -23,47 +23,38 @@ class ProjectEventService {
 
     fun createEventsForUpdate(project: Project, originalProject: Project) {
         val user = Auth.getAuthenticatedUser(request);
+        val listOfEventsToCreate: List<String> = mutableListOf();
         if (project.isPubliclyVisible != originalProject.isPubliclyVisible) {
-            val changedVisibilityEventString = if (project.isPubliclyVisible)
-                "User ${user.username} made the '${project.name}' project visible to the public."
-            else
-                "User ${user.username} made the '${project.name}' project private, only authorized accounts have access to it now.";
-            create(ProjectEvent(
-                    null,
-                    changedVisibilityEventString,
-                    project.project_id!!,
-                    user.user_id
-            ));
+            listOfEventsToCreate.plus(
+                    if (project.isPubliclyVisible)
+                        "User ${user.username} made the '${project.name}' project visible to the public."
+                    else
+                        "User ${user.username} made the '${project.name}' project private, only authorized accounts have access to it now."
+            )
         }
         if (originalProject.name != project.name) {
-            val changedProjectNameEventString =
-                    "User ${user.username} changed the name of this project. It used to be '${originalProject.name}', buw not is '${project.name}'."
-            create(ProjectEvent(
-                    null,
-                    changedProjectNameEventString,
-                    project.project_id!!,
-                    user.user_id
-            ));
+            listOfEventsToCreate.plus(
+                    "User ${user.username} changed the name of this project. It used to be '${originalProject.name}', but now is '${project.name}'."
+            )
         }
         if (originalProject.active != project.active) {
-            val changedProjectStateEventString = if (project.active)
-                "User ${user.username} reactivated the '${project.name}' project. Good to have it back 😁"
-            else
-                "User ${user.username} deactivated the '${project.name}' project. It'll be missed 😔";
-            create(ProjectEvent(
-                    null,
-                    changedProjectStateEventString,
-                    project.project_id!!,
-                    user.user_id
-            ));
+            listOfEventsToCreate.plus(
+                    if (project.active)
+                        "User ${user.username} reactivated the '${project.name}' project. Good to have it back 😁"
+                    else
+                        "User ${user.username} deactivated the '${project.name}' project. It'll be missed 😔"
+            )
         }
         if (originalProject.isSoftdeleted != project.isSoftdeleted) {
-            val deletedEventString =
-                    "User ${user.username} deleted the '${project.name}' project. RIP '${project.name}' project 😞";
+            listOfEventsToCreate.plus(
+                    "User ${user.username} deleted the '${project.name}' project. RIP '${project.name}' project 😞"
+            )
+        }
+        for (event: String in listOfEventsToCreate) {
             create(ProjectEvent(
                     null,
-                    deletedEventString,
-                    project.project_id!!,
+                    event,
+                    project.projectId!!,
                     user.user_id
             ));
         }
@@ -74,7 +65,7 @@ class ProjectEventService {
         create(ProjectEvent(
                 null,
                 "User ${user.username} created the '${project.name}' project. Let's get to work! 🛠",
-                project.project_id!!,
+                project.projectId!!,
                 user.user_id!!
         ));
     }
