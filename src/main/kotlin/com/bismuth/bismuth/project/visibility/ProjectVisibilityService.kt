@@ -27,13 +27,13 @@ class ProjectVisibilityService {
         create(ProjectVisibility(
                 null,
                 project.projectId!!,
-                user.user_id!!,
+                user.userId!!,
                 "OWNER"
         ));
     }
 
     fun getVisibilityOf(user: User, project: Project): ProjectVisibility? {
-        return projectVisibilityRepository.getVisibilityOf(user.user_id!!, project.projectId!!);
+        return projectVisibilityRepository.getVisibilityOf(user.userId!!, project.projectId!!);
     }
 
 }

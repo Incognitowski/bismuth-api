@@ -26,7 +26,7 @@ class ApplicationEventService {
         create(ApplicationEvent(
                 null,
                 application.applicationId!!,
-                user.user_id!!,
+                user.userId!!,
                 "User ${user.username} created the '${application.name}' application. Great! ✨"
         ));
     }
@@ -56,7 +56,7 @@ class ApplicationEventService {
             create(ApplicationEvent(
                     null,
                     application.applicationId!!,
-                    user.user_id!!,
+                    user.userId!!,
                     event
             ))
         }

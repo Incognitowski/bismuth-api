@@ -13,7 +13,6 @@ import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.transaction.Transactional
 
-
 @Service
 @Transactional
 class ProjectService {
@@ -33,8 +32,8 @@ class ProjectService {
     fun create(project: Project): Project {
         val user = Auth.getAuthenticatedUser(request);
         project.projectId = UUID.randomUUID();
-        project.createdBy = user.user_id;
-        project.ownedBy = user.user_id;
+        project.createdBy = user;
+        project.ownedBy = user;
         ProjectBO.validate(project);
         val newProject = projectRepository.save(project);
         projectEventService.createNewProjectEvent(project);
@@ -51,13 +50,13 @@ class ProjectService {
 
     fun getAllVisibleForUser(pageable: Pageable): Page<Project> {
         val user = Auth.getAuthenticatedUser(request);
-        val listOfProjects = projectRepository.getByUserId(user.user_id!!);
+        val listOfProjects = projectRepository.getByUserId(user.userId!!);
         return PageCommons.getPaged(pageable, listOfProjects);
     }
 
     fun searchByDescription(searchString: String): List<Project> {
         val user = Auth.getAuthenticatedUser(request);
-        return projectRepository.getByDescription(user.user_id!!, "%${searchString}%");
+        return projectRepository.getByDescription(user.userId!!, "%${searchString}%");
     }
 
     fun update(project: Project, projectId: UUID): Project {

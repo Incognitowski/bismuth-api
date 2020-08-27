@@ -19,7 +19,7 @@ class JwtUtils {
             val todayPlusOneYear = calendarInstance.time;
             return JWT.create()
                     .withSubject(user.username)
-                    .withKeyId(user.user_id.toString())
+                    .withKeyId(user.userId.toString())
                     .withIssuedAt(Date())
                     .withExpiresAt(todayPlusOneYear)
                     .withIssuer(issuer)

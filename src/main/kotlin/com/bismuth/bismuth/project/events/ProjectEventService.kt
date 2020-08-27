@@ -55,7 +55,7 @@ class ProjectEventService {
                     null,
                     event,
                     project.projectId!!,
-                    user.user_id
+                    user.userId
             ));
         }
     }
@@ -66,7 +66,7 @@ class ProjectEventService {
                 null,
                 "User ${user.username} created the '${project.name}' project. Let's get to work! 🛠",
                 project.projectId!!,
-                user.user_id!!
+                user.userId!!
         ));
     }
 

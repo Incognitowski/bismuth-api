@@ -36,15 +36,15 @@ class ApplicationService {
 
     fun getAllWithProjectId(projectId: UUID, pageable: Pageable): Page<Application> {
         val user = Auth.getAuthenticatedUser(request);
-        val applications = applicationRepository.getByProjectId(projectId, user.user_id!!);
+        val applications = applicationRepository.getByProjectId(projectId, user.userId!!);
         return PageCommons.getPaged(pageable, applications);
     }
 
     fun create(application: Application): Application {
         val user = Auth.getAuthenticatedUser(request);
         application.applicationId = UUID.randomUUID();
-        application.createdBy = user.user_id;
-        application.ownedBy = user.user_id;
+        application.createdBy = user;
+        application.ownedBy = user;
         ApplicationBO.validate(application);
         val newApplication = applicationRepository.save(application);
         applicationEventService.createNewProjectEvent(newApplication);

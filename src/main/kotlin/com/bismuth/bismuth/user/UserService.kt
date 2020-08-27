@@ -17,7 +17,7 @@ class UserService {
     lateinit var userRepository: UserRepository;
 
     fun createUser(user: User): User {
-        user.user_id = UUID.randomUUID();
+        user.userId = UUID.randomUUID();
         UserBO.validate(user);
         user.password = BCryptPasswordEncoder().encode(user.password);
         if (userRepository.findByUsername(user.username as String) != null)

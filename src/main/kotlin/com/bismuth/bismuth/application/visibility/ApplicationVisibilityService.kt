@@ -27,13 +27,13 @@ class ApplicationVisibilityService {
         create(ApplicationVisibility(
                 null,
                 application.applicationId!!,
-                user.user_id!!,
+                user.userId!!,
                 "OWNER"
         ))
     }
 
     fun getVisibilityOf(application: Application, user: User): ApplicationVisibility? {
-        return applicationVisibilityRepository.getVisibilityOf(user.user_id!!, application.applicationId!!);
+        return applicationVisibilityRepository.getVisibilityOf(user.userId!!, application.applicationId!!);
     }
 
 }

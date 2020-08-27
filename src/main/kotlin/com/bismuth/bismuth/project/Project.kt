@@ -1,11 +1,10 @@
 package com.bismuth.bismuth.project
 
 import com.bismuth.bismuth.framework.data.OwnableModel
+import com.bismuth.bismuth.user.User
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
+
 
 @Entity
 @Table(

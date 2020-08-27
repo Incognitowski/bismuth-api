@@ -16,7 +16,7 @@ data class User(
         @Id
         @Column(name = "user_id")
         @org.hibernate.annotations.Type(type = "pg-uuid")
-        var user_id: UUID?,
+        var userId: UUID?,
         @Column(name = "username")
         var username: String?,
         @Column(name = "email")
