@@ -7,7 +7,7 @@ class UserBO {
 
         fun validate(user: User) {
             validateUsername(user.username);
-            validatePassword(user.password);
+            validatePassword(user.password!!);
         }
 
         private fun validateUsername(username: String?) {

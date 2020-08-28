@@ -32,7 +32,7 @@ class AuthInterceptor : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         if (request.method == "OPTIONS") return true;
-        if (request.getHeader("Authorization") == null)
+        if (request.getHeader(  "Authorization") == null)
             throw AuthenticationRequiredException("You must be authenticated in order to consume this resource.");
         val jwt: String = request.getHeader("Authorization");
         val user: User = userService.getByDecodedJWT(JwtUtils.retrieveTokenInformation(jwt));

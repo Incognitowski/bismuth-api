@@ -16,7 +16,7 @@ class InterceptorConfig : WebMvcConfigurer {
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(authInterceptor)
-                .excludePathPatterns(AuthInterceptor.excludePaths());
+//                .excludePathPatterns(AuthInterceptor.excludePaths());
     }
 
 }
