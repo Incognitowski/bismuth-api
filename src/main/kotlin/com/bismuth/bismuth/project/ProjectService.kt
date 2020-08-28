@@ -51,6 +51,9 @@ class ProjectService {
     fun getAllVisibleForUser(pageable: Pageable): Page<Project> {
         val user = Auth.getAuthenticatedUser(request);
         val listOfProjects = projectRepository.getByUserId(user.userId!!);
+        listOfProjects.forEach {
+            it.relationShipWithCurrentUser = projectVisibilityService.getVisibilityOf(user, it);
+        }
         return PageCommons.getPaged(pageable, listOfProjects);
     }
 

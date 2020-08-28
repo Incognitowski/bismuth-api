@@ -10,7 +10,7 @@ import java.util.*
 interface ProjectRepository : JpaRepository<Project, UUID> {
 
     @Query(
-            value = "SELECT p.* FROM project p JOIN project_visibility pv on pv.user_id = :userId WHERE pv.softdeleted = false AND p.softdeleted = false GROUP BY p.project_id",
+            value = "SELECT * FROM project p WHERE project_id in (select project_id from project_visibility pv where pv.user_id = :userId and pv.softdeleted = false) AND p.softdeleted = false",
             nativeQuery = true
     )
     fun getByUserId(
@@ -18,7 +18,7 @@ interface ProjectRepository : JpaRepository<Project, UUID> {
     ): List<Project>;
 
     @Query(
-            value = "SELECT p.* FROM project p JOIN project_visibility pv on pv . user_id = :userId WHERE pv . softdeleted = false AND p.softdeleted = false AND UPPER(p.name) LIKE UPPER(:searchQuery) GROUP BY p . project_id",
+            value = "SELECT * FROM project p WHERE project_id in (select project_id from project_visibility pv where pv.user_id = :userId and pv.softdeleted = false) AND p.softdeleted = false AND UPPER(p.name) LIKE UPPER(:searchQuery);",
             nativeQuery = true
     )
     fun getByDescription(

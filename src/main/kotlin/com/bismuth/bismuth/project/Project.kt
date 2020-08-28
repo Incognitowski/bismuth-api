@@ -1,9 +1,13 @@
 package com.bismuth.bismuth.project
 
 import com.bismuth.bismuth.framework.data.OwnableModel
-import com.bismuth.bismuth.user.User
+import com.bismuth.bismuth.project.visibility.ProjectVisibility
 import java.util.*
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.Table
+import javax.persistence.Transient
 
 
 @Entity
@@ -22,4 +26,9 @@ data class Project(
         var active: Boolean,
         @Column(name = "is_publicly_visible")
         var isPubliclyVisible: Boolean
-) : OwnableModel();
+) : OwnableModel() {
+
+        @Transient
+        var relationShipWithCurrentUser: ProjectVisibility? = null;
+
+};
