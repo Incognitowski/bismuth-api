@@ -1,5 +1,7 @@
 package com.bismuth.bismuth.project
 
+import com.bismuth.bismuth.project.visibility.ProjectVisibility
+import com.bismuth.bismuth.user.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -37,6 +39,13 @@ class ProjectController {
         return projectService.getById(projectId);
     }
 
+    @GetMapping("/{projectId}/users")
+    fun getUsersRelatedToProject(
+            @PathVariable("projectId") projectId: UUID
+    ): List<User> {
+        return projectService.getUsersRelatedToProject(projectId);
+    }
+
     @GetMapping("/search-by-name/{projectName}")
     fun getProjectById(
             @PathVariable("projectName") projectName: String
@@ -55,5 +64,14 @@ class ProjectController {
     ) {
         projectService.delete(projectId);
     }
+
+    @PostMapping("/{projectId}/users")
+    fun attachUserToProject(
+            @PathVariable("projectId") projectId: UUID,
+            @RequestBody projectVisibility: ProjectVisibility
+    ) : ProjectVisibility {
+        return projectService.attachUserToProject(projectId, projectVisibility);
+    }
+
 
 }

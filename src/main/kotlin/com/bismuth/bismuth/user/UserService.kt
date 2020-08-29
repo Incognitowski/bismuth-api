@@ -3,6 +3,7 @@ package com.bismuth.bismuth.user
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.bismuth.bismuth.framework.exception.EntityNotFoundException
 import com.bismuth.bismuth.framework.exception.UniqueConstraintException
+import com.bismuth.bismuth.project.Project
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -46,5 +47,13 @@ class UserService {
     }
 
     fun getUsers(): List<User> = userRepository.findAll();
+
+    fun getUsersRelatedToProject(project: Project): List<User> {
+        return userRepository.getUsersRelatedToProject(project.projectId!!);
+    }
+
+    fun searchUsersByUsername(username: String): List<User> {
+        return userRepository.searchByUsername(username);
+    }
 
 }

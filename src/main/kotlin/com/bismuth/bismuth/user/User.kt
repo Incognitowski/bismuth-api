@@ -2,6 +2,7 @@ package com.bismuth.bismuth.user
 
 import com.bismuth.bismuth.framework.data.BaseModel
 import com.bismuth.bismuth.project.Project
+import com.bismuth.bismuth.project.visibility.ProjectVisibility
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.util.*
@@ -27,4 +28,9 @@ data class User(
         var password: String?,
         @Column(name = "suspended")
         var suspended: Boolean = false
-) : BaseModel();
+) : BaseModel() {
+
+        @Transient
+        var relationshipWithCurrentProject: ProjectVisibility? = null;
+
+};

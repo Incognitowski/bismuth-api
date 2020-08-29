@@ -18,7 +18,7 @@ class UserController {
     fun getUsers(): List<User> = userService.getUsers();
 
     @GetMapping("by-username/{username}")
-    fun findByUsername(@PathVariable(value = "username") username: String): User? = userService.getByUsername(username);
+    fun searchByUsername(@PathVariable(value = "username") username: String): List<User> = userService.searchUsersByUsername(username);
 
     @GetMapping("/{userId}")
     fun findById(@PathVariable(value = "userId") userId: UUID): User = userService.getById(userId);
