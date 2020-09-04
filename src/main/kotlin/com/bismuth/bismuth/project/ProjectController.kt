@@ -1,6 +1,7 @@
 package com.bismuth.bismuth.project
 
 import com.bismuth.bismuth.project.visibility.ProjectVisibility
+import com.bismuth.bismuth.project.visibility.ProjectVisibilityService
 import com.bismuth.bismuth.user.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -16,6 +17,9 @@ class ProjectController {
 
     @Autowired
     lateinit var projectService: ProjectService;
+
+    @Autowired
+    lateinit var projectVisibilityService: ProjectVisibilityService;
 
     @PostMapping
     fun createProject(
@@ -51,6 +55,14 @@ class ProjectController {
             @PathVariable("projectName") projectName: String
     ): List<Project> {
         return projectService.searchByDescription(projectName);
+    }
+
+    @GetMapping("/{projectId}/visibility")
+    fun getVisibilityWithProject(
+            @PathVariable("projectId") projectId: UUID
+    ): ProjectVisibility? {
+        val project = projectService.getById(projectId);
+        return projectVisibilityService.getVisibilityOfCurrentUserFrom(project);
     }
 
     @GetMapping

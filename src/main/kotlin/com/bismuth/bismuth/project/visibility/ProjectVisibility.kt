@@ -23,4 +23,10 @@ data class ProjectVisibility(
         var user_id: UUID,
         @Column(name = "visibility")
         var visibility: String
-) : BaseModel();
+) : BaseModel() {
+
+    fun getVisibilityAsEnum(): ProjectVisibilityEnum {
+        return ProjectVisibilityCommons.getVisibilityFrom(this);
+    }
+
+};

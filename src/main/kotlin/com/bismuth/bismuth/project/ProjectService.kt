@@ -3,6 +3,7 @@ package com.bismuth.bismuth.project
 import com.bismuth.bismuth.framework.authentication.Auth
 import com.bismuth.bismuth.framework.data.PageCommons
 import com.bismuth.bismuth.framework.exception.EntityNotFoundException
+import com.bismuth.bismuth.framework.exception.UserAlreadyAttachedToResourceException
 import com.bismuth.bismuth.project.events.ProjectEventService
 import com.bismuth.bismuth.project.visibility.ProjectVisibility
 import com.bismuth.bismuth.project.visibility.ProjectVisibilityService
@@ -102,7 +103,19 @@ class ProjectService {
         val project = getById(projectId);
         val user = Auth.getAuthenticatedUser(request);
         ProjectGuardian.onUser(user).protectAccessToRelatedUsersOf(project);
+        val userToAttach = userRepository.getById(projectVisibility.user_id);
+        val visibilityWithUser = projectVisibilityService.getVisibilityOf(userToAttach, project);
+        if (visibilityWithUser != null)
+            throw UserAlreadyAttachedToResourceException("User already has relationship with project");
         return projectVisibilityService.create(projectVisibility);
+    }
+
+    fun detachUserFromProject(projectId: UUID, projectVisibilityId: UUID): ProjectVisibility {
+        val user = Auth.getAuthenticatedUser(request);
+        val visibility = projectVisibilityService.getById(projectVisibilityId);
+        val project = getById(projectId);
+        ProjectGuardian.onUser(user).protectUserDetachmentFrom(project, visibility);
+        return projectVisibilityService.remove(visibility);
     }
 
 }

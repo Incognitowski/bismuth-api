@@ -50,4 +50,19 @@ class ProjectGuardian {
             throw ProjectGuardianException("You don't have enough permissions to see users related to the ${project.name} project");
     }
 
+    fun protectUserDetachmentFrom(project: Project, visibilityToRemove: ProjectVisibility) {
+        val currentUsersVisibility = basicProtectionAndGetVisibility(project);
+        val currentUserIsOwnerOrManager = listOf(ProjectVisibilityEnum.OWNER, ProjectVisibilityEnum.MANAGER)
+                .contains(currentUsersVisibility.getVisibilityAsEnum());
+        val isManagerAndTryingToRemoveAnotherManager =
+                currentUsersVisibility.getVisibilityAsEnum() == ProjectVisibilityEnum.MANAGER &&
+                        visibilityToRemove.getVisibilityAsEnum() == ProjectVisibilityEnum.MANAGER;
+        if (!currentUserIsOwnerOrManager)
+            throw ProjectGuardianException("You don't have enough permissions to manage users related to the ${project.name} project");
+        if (visibilityToRemove.getVisibilityAsEnum() == ProjectVisibilityEnum.OWNER)
+            throw ProjectGuardianException("You can't detach the owner of the ${project.name} project from his project.");
+        if (isManagerAndTryingToRemoveAnotherManager)
+            throw ProjectGuardianException("Only owners can detach managers from projects.");
+    }
+
 }
