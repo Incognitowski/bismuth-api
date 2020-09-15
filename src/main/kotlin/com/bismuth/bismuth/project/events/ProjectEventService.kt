@@ -2,6 +2,8 @@ package com.bismuth.bismuth.project.events
 
 import com.bismuth.bismuth.framework.authentication.Auth
 import com.bismuth.bismuth.project.Project
+import com.bismuth.bismuth.user.UserRepository
+import com.bismuth.bismuth.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -16,6 +18,9 @@ class ProjectEventService {
     @Autowired
     lateinit var projectEventRepository: ProjectEventRepository;
 
+    @Autowired
+    lateinit var userService: UserService;
+
     fun create(projectEvent: ProjectEvent): ProjectEvent {
         projectEvent.project_event_id = UUID.randomUUID();
         return projectEventRepository.save(projectEvent);
@@ -23,9 +28,9 @@ class ProjectEventService {
 
     fun createEventsForUpdate(project: Project, originalProject: Project) {
         val user = Auth.getAuthenticatedUser(request);
-        val listOfEventsToCreate: List<String> = mutableListOf();
+        val listOfEventsToCreate: MutableList<String> = mutableListOf();
         if (project.isPubliclyVisible != originalProject.isPubliclyVisible) {
-            listOfEventsToCreate.plus(
+            listOfEventsToCreate.add(
                     if (project.isPubliclyVisible)
                         "User ${user.username} made the '${project.name}' project visible to the public."
                     else
@@ -33,12 +38,12 @@ class ProjectEventService {
             )
         }
         if (originalProject.name != project.name) {
-            listOfEventsToCreate.plus(
+            listOfEventsToCreate.add(
                     "User ${user.username} changed the name of this project. It used to be '${originalProject.name}', but now is '${project.name}'."
             )
         }
         if (originalProject.active != project.active) {
-            listOfEventsToCreate.plus(
+            listOfEventsToCreate.add(
                     if (project.active)
                         "User ${user.username} reactivated the '${project.name}' project. Good to have it back 😁"
                     else
@@ -46,7 +51,7 @@ class ProjectEventService {
             )
         }
         if (originalProject.isSoftdeleted != project.isSoftdeleted) {
-            listOfEventsToCreate.plus(
+            listOfEventsToCreate.add(
                     "User ${user.username} deleted the '${project.name}' project. RIP '${project.name}' project 😞"
             )
         }
@@ -68,6 +73,19 @@ class ProjectEventService {
                 project.projectId!!,
                 user.userId!!
         ));
+    }
+
+    fun getAllFromProject(projectId: UUID): List<ProjectEvent> {
+        return projectEventRepository.getAllFromProject(projectId);
+    }
+
+    fun getAllFromProjectWithUsers(projectId: UUID): List<ProjectEvent> {
+        val events = getAllFromProject(projectId);
+        val usersRelatedToEventsInProject = userService.usersRelatedToEventsInProject(projectId);
+        events.forEach {
+            it.user = usersRelatedToEventsInProject[it.user_id];
+        }
+        return events;
     }
 
 }

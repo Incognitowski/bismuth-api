@@ -28,6 +28,12 @@ interface UserRepository : JpaRepository<User, UUID> {
     override fun findAll(): MutableList<User>;
 
     @Query(value = "SELECT * FROM public.user WHERE user_id IN (SELECT pv.user_id FROM project_visibility pv WHERE project_id = :projectId AND pv.softdeleted = false) AND softdeleted = false", nativeQuery = true)
-    fun getUsersRelatedToProject(@Param("projectId") projectId: UUID): List<User>;
+    fun getUsersRelatedToProject(
+            @Param("projectId") projectId: UUID
+    ): List<User>;
 
+    @Query(value = "SELECT * FROM public.user WHERE user_id IN (SELECT user_id FROM project_event WHERE project_event.project_id = :projectId GROUP BY user_id)", nativeQuery = true)
+    fun getUsersRelatedToEventsInProject(
+            @Param("projectId") projectId: UUID
+    ): List<User>;
 };

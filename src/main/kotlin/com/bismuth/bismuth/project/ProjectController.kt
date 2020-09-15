@@ -1,5 +1,6 @@
 package com.bismuth.bismuth.project
 
+import com.bismuth.bismuth.project.events.ProjectEvent
 import com.bismuth.bismuth.project.visibility.ProjectVisibility
 import com.bismuth.bismuth.project.visibility.ProjectVisibilityService
 import com.bismuth.bismuth.user.User
@@ -17,9 +18,6 @@ class ProjectController {
 
     @Autowired
     lateinit var projectService: ProjectService;
-
-    @Autowired
-    lateinit var projectVisibilityService: ProjectVisibilityService;
 
     @PostMapping
     fun createProject(
@@ -57,14 +55,6 @@ class ProjectController {
         return projectService.searchByDescription(projectName);
     }
 
-    @GetMapping("/{projectId}/visibility")
-    fun getVisibilityWithProject(
-            @PathVariable("projectId") projectId: UUID
-    ): ProjectVisibility? {
-        val project = projectService.getById(projectId);
-        return projectVisibilityService.getVisibilityOfCurrentUserFrom(project);
-    }
-
     @GetMapping
     fun getAllVisibleProjects(pageable: Pageable): Page<Project> {
         return projectService.getAllVisibleForUser(pageable)
@@ -85,5 +75,12 @@ class ProjectController {
         return projectService.attachUserToProject(projectId, projectVisibility);
     }
 
+    @PutMapping("/{projectId}/transfer")
+    fun transferProjectOwnership(
+            @PathVariable("projectId") projectId: UUID,
+            @RequestBody projectTransferPOKO : ProjectTransferPOKO
+    ) {
+        return projectService.transferProjectOwnership(projectId, projectTransferPOKO)
+    }
 
 }

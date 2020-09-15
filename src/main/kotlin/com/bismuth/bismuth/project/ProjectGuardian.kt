@@ -65,4 +65,12 @@ class ProjectGuardian {
             throw ProjectGuardianException("Only owners can detach managers from projects.");
     }
 
+    fun protectOwnershipTransferOf(project: Project) {
+        val currentUsersVisibility = basicProtectionAndGetVisibility(project);
+        val currentUserIsOwner = listOf(ProjectVisibilityEnum.OWNER)
+                .contains(currentUsersVisibility.getVisibilityAsEnum());
+        if (!currentUserIsOwner)
+            throw ProjectGuardianException("Only the owner of the project can transfer it's ownership.");
+    }
+
 }

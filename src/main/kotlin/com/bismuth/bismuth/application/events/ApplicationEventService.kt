@@ -33,9 +33,9 @@ class ApplicationEventService {
 
     fun createEventsForUpdate(application: Application, originalApplication: Application) {
         val user = Auth.getAuthenticatedUser(request);
-        val listOfEventsToCreate: List<String> = listOf();
+        val listOfEventsToCreate: MutableList<String> = mutableListOf();
         if (application.isPubliclyVisible != originalApplication.isPubliclyVisible) {
-            listOfEventsToCreate.plus(
+            listOfEventsToCreate.add(
                     if (originalApplication.isPubliclyVisible)
                         "User ${user.username} changed the visibility of this application. This app is not available to unauthorized users anymore."
                     else
@@ -43,12 +43,12 @@ class ApplicationEventService {
             )
         }
         if (application.name != originalApplication.name) {
-            listOfEventsToCreate.plus(
+            listOfEventsToCreate.add(
                     "User ${user.username} changed the name of this application. It used to be '${originalApplication.name}', but now is '${application.name}'."
             )
         }
         if (application.isSoftdeleted != originalApplication.isSoftdeleted) {
-            listOfEventsToCreate.plus(
+            listOfEventsToCreate.add(
                     "User ${user.username} deleted the ${application.name} application. RIP ${application.name} application 😭"
             )
         }

@@ -46,6 +46,12 @@ class UserService {
         return user;
     }
 
+    fun getByEmail(email: String): User {
+        val user = userRepository.findByEmail(email)
+                ?: throw EntityNotFoundException("We were unable to find a user with such username.");
+        return user;
+    }
+
     fun getUsers(): List<User> = userRepository.findAll();
 
     fun getUsersRelatedToProject(project: Project): List<User> {
@@ -54,6 +60,11 @@ class UserService {
 
     fun searchUsersByUsername(username: String): List<User> {
         return userRepository.searchByUsername(username);
+    }
+
+    fun usersRelatedToEventsInProject(projectId: UUID) : Map<UUID, User> {
+        val users = userRepository.getUsersRelatedToEventsInProject(projectId);
+        return UserCommons.parseMap(users);
     }
 
 }

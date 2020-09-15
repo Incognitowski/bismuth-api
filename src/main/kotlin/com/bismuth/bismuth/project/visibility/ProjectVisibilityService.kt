@@ -3,7 +3,6 @@ package com.bismuth.bismuth.project.visibility
 import com.bismuth.bismuth.framework.authentication.Auth
 import com.bismuth.bismuth.framework.exception.EntityNotFoundException
 import com.bismuth.bismuth.project.Project
-import com.bismuth.bismuth.project.ProjectGuardian
 import com.bismuth.bismuth.project.ProjectRepository
 import com.bismuth.bismuth.user.User
 import org.springframework.beans.factory.annotation.Autowired
@@ -58,6 +57,10 @@ class ProjectVisibilityService {
         visibility.softdeletedAt = Date();
         visibility.isSoftdeleted = true;
         return projectVisibilityRepository.save(visibility);
+    }
+
+    fun update(projectVisibility: ProjectVisibility) : ProjectVisibility {
+        return projectVisibilityRepository.save(projectVisibility);
     }
 
 }

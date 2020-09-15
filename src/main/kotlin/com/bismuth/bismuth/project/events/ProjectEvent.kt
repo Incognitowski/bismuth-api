@@ -1,11 +1,13 @@
 package com.bismuth.bismuth.project.events
 
 import com.bismuth.bismuth.framework.data.BaseModel
+import com.bismuth.bismuth.user.User
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
+import javax.persistence.Transient
 
 @Entity
 @Table(
@@ -25,4 +27,9 @@ data class ProjectEvent(
         @Column(name = "user_id")
         @org.hibernate.annotations.Type(type = "pg-uuid")
         var user_id: UUID?
-) : BaseModel();
+) : BaseModel() {
+
+        @Transient
+        var user : User? = null;
+
+};
