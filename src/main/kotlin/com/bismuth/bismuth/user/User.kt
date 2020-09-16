@@ -23,7 +23,7 @@ data class User(
         var username: String?,
         @Column(name = "email")
         var email: String,
-        @JsonIgnore
+//        @JsonIgnore()
         @Column(name = "password")
         var password: String?,
         @Column(name = "suspended")
