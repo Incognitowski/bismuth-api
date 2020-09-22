@@ -73,4 +73,17 @@ class ProjectGuardian {
             throw ProjectGuardianException("Only the owner of the project can transfer it's ownership.");
     }
 
+    fun protectAccessingAppsOf(project: Project) {
+        if (project.isPubliclyVisible) return;
+        val currentUsersVisibility = basicProtectionAndGetVisibility(project);
+        val currentUserHasRoleInApplication = listOf(
+                ProjectVisibilityEnum.OWNER,
+                ProjectVisibilityEnum.MANAGER,
+                ProjectVisibilityEnum.STAKEHOLDER,
+                ProjectVisibilityEnum.DEVELOPER
+        ).contains(currentUsersVisibility.getVisibilityAsEnum());
+        if (!currentUserHasRoleInApplication)
+            throw ProjectGuardianException("You don't have access to this project.");
+    }
+
 }

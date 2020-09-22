@@ -1,5 +1,6 @@
 package com.bismuth.bismuth.application
 
+import com.bismuth.bismuth.application.visibility.ApplicationVisibility
 import com.bismuth.bismuth.framework.data.OwnableModel
 import java.util.*
 import javax.persistence.Column
@@ -24,4 +25,9 @@ data class Application(
         var projectId: UUID?,
         @Column(name = "is_publicly_visible")
         var isPubliclyVisible: Boolean = false
-) : OwnableModel();
+) : OwnableModel() {
+
+    @Transient
+    var relationShipWithCurrentUser: ApplicationVisibility? = null;
+
+};

@@ -41,4 +41,13 @@ class ApplicationController {
         return applicationService.getAllWithProjectId(projectId, pageable);
     }
 
+    @GetMapping("search-by-name/{searchWord}")
+    fun searchAppsByName(
+            @PathVariable("projectId") projectId: UUID,
+            @PathVariable("searchWord") searchWord: String
+    ): List<Application> {
+        return applicationService.searchAppsByName(projectId, searchWord);
+    }
+
+
 }

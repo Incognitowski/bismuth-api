@@ -4,6 +4,8 @@ import com.bismuth.bismuth.application.events.ApplicationEventService
 import com.bismuth.bismuth.application.visibility.ApplicationVisibilityService
 import com.bismuth.bismuth.framework.authentication.Auth
 import com.bismuth.bismuth.framework.data.PageCommons
+import com.bismuth.bismuth.project.ProjectGuardian
+import com.bismuth.bismuth.project.ProjectService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -17,6 +19,9 @@ class ApplicationService {
 
     @Autowired
     lateinit var request: HttpServletRequest;
+
+    @Autowired
+    lateinit var projectService: ProjectService;
 
     @Autowired
     lateinit var applicationRepository: ApplicationRepository;
@@ -37,6 +42,9 @@ class ApplicationService {
     fun getAllWithProjectId(projectId: UUID, pageable: Pageable): Page<Application> {
         val user = Auth.getAuthenticatedUser(request);
         val applications = applicationRepository.getByProjectId(projectId, user.userId!!);
+        applications.forEach {
+            it.relationShipWithCurrentUser = applicationVisibilityService.getVisibilityOf(it, user);
+        }
         return PageCommons.getPaged(pageable, applications);
     }
 
@@ -60,6 +68,17 @@ class ApplicationService {
         applicationRepository.save(application);
         applicationEventService.createEventsForUpdate(application, originalApplication);
         return application;
+    }
+
+    fun searchAppsByName(projectId: UUID, searchWord: String): List<Application> {
+        val user = Auth.getAuthenticatedUser(request);
+        val project = projectService.getById(projectId);
+        ProjectGuardian.onUser(user).protectAccessingAppsOf(project);
+        val apps = applicationRepository.searchByName(project.projectId!!, "%${searchWord}%", user.userId!!);
+        apps.forEach {
+            it.relationShipWithCurrentUser = applicationVisibilityService.getVisibilityOf(it, user);
+        }
+        return apps;
     }
 
 }
