@@ -452,6 +452,48 @@ ALTER TABLE public.notification
     OWNER TO postgres;
 -- ddl-end --
 
+-- object: public.object_dictionary_visibility | type: TABLE --
+-- DROP TABLE IF EXISTS public.object_dictionary_visibility CASCADE;
+CREATE TABLE public.object_dictionary_visibility
+(
+    object_dictionary_visibility_id uuid                   NOT NULL,
+    object_dictionary_id            uuid                   NOT NULL,
+    user_id                         uuid                   NOT NULL,
+    visibility                      character varying(255) NOT NULL DEFAULT 'STAKEHOLDER',
+-- 	created_at timestamp with time zone NOT NULL DEFAULT now(),
+-- 	updated_at timestamp with time zone,
+-- 	softdeleted bool NOT NULL DEFAULT false,
+-- 	softdeleted_at timestamp with time zone,
+    CONSTRAINT pk_object_dictionary_visibility PRIMARY KEY (object_dictionary_visibility_id)
+
+) INHERITS (public.base_model)
+;
+-- ddl-end --
+ALTER TABLE public.object_dictionary_visibility
+    OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.http_api_visibility | type: TABLE --
+-- DROP TABLE IF EXISTS public.http_api_visibility CASCADE;
+CREATE TABLE public.http_api_visibility
+(
+    http_api_visibility_id uuid                   NOT NULL,
+    http_api_id            uuid                   NOT NULL,
+    user_id                uuid                   NOT NULL,
+    visibility             character varying(255) NOT NULL DEFAULT 'STAKEHOLDER',
+-- 	created_at timestamp with time zone NOT NULL DEFAULT now(),
+-- 	updated_at timestamp with time zone,
+-- 	softdeleted bool NOT NULL DEFAULT false,
+-- 	softdeleted_at timestamp with time zone,
+    CONSTRAINT pk_http_api_visibility PRIMARY KEY (http_api_visibility_id)
+
+) INHERITS (public.base_model)
+;
+-- ddl-end --
+ALTER TABLE public.http_api_visibility
+    OWNER TO postgres;
+-- ddl-end --
+
 -- object: fk_ownership_created_by | type: CONSTRAINT --
 -- ALTER TABLE public.base_model_with_ownership DROP CONSTRAINT IF EXISTS fk_ownership_created_by CASCADE;
 ALTER TABLE public.base_model_with_ownership
@@ -672,6 +714,38 @@ ALTER TABLE public.notification
 -- ALTER TABLE public.notification DROP CONSTRAINT IF EXISTS fk_notification_from CASCADE;
 ALTER TABLE public.notification
     ADD CONSTRAINT fk_notification_from FOREIGN KEY ("from")
+        REFERENCES public."user" (user_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: fk_object_dictionary_visibility_user | type: CONSTRAINT --
+-- ALTER TABLE public.object_dictionary_visibility DROP CONSTRAINT IF EXISTS fk_object_dictionary_visibility_user CASCADE;
+ALTER TABLE public.object_dictionary_visibility
+    ADD CONSTRAINT fk_object_dictionary_visibility_user FOREIGN KEY (user_id)
+        REFERENCES public."user" (user_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: fk_object_dictionary_visibility_object_dictionary | type: CONSTRAINT --
+-- ALTER TABLE public.object_dictionary_visibility DROP CONSTRAINT IF EXISTS fk_object_dictionary_visibility_object_dictionary CASCADE;
+ALTER TABLE public.object_dictionary_visibility
+    ADD CONSTRAINT fk_object_dictionary_visibility_object_dictionary FOREIGN KEY (object_dictionary_id)
+        REFERENCES public.object_dictionary (object_dictionary_id) MATCH FULL
+        ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_http_api_visibility_http_api | type: CONSTRAINT --
+-- ALTER TABLE public.http_api_visibility DROP CONSTRAINT IF EXISTS fk_http_api_visibility_http_api CASCADE;
+ALTER TABLE public.http_api_visibility
+    ADD CONSTRAINT fk_http_api_visibility_http_api FOREIGN KEY (http_api_id)
+        REFERENCES public.http_api (http_api_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: fk_http_api_visibility_user | type: CONSTRAINT --
+-- ALTER TABLE public.http_api_visibility DROP CONSTRAINT IF EXISTS fk_http_api_visibility_user CASCADE;
+ALTER TABLE public.http_api_visibility
+    ADD CONSTRAINT fk_http_api_visibility_user FOREIGN KEY (user_id)
         REFERENCES public."user" (user_id) MATCH FULL
         ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
