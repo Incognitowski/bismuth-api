@@ -15,6 +15,14 @@ class ApplicationController {
     @Autowired
     lateinit var applicationService: ApplicationService;
 
+    @GetMapping("/{applicationId}")
+    fun getById(
+            @PathVariable("projectId") projectId: UUID,
+            @PathVariable("applicationId") applicationId: UUID
+    ): Application {
+        return applicationService.getById(applicationId);
+    }
+
     @PostMapping
     fun create(
             @PathVariable("projectId") projectId: UUID,
