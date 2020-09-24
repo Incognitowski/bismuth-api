@@ -5,8 +5,13 @@ import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
+@Table(
+        schema = "public",
+        name = "object_dictionary"
+)
 data class ObjectDictionary(
         @Id
         @Column(name = "object_dictionary_id")

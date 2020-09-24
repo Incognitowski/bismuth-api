@@ -1,8 +1,6 @@
 package com.bismuth.bismuth.project
 
-import com.bismuth.bismuth.project.events.ProjectEvent
 import com.bismuth.bismuth.project.visibility.ProjectVisibility
-import com.bismuth.bismuth.project.visibility.ProjectVisibilityService
 import com.bismuth.bismuth.user.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page

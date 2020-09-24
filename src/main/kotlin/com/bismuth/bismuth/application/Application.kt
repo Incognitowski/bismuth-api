@@ -2,6 +2,7 @@ package com.bismuth.bismuth.application
 
 import com.bismuth.bismuth.application.visibility.ApplicationVisibility
 import com.bismuth.bismuth.framework.data.OwnableModel
+import com.bismuth.bismuth.project.Project
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -29,5 +30,8 @@ data class Application(
 
     @Transient
     var relationShipWithCurrentUser: ApplicationVisibility? = null;
+
+    @Transient
+    var project: Project? = null;
 
 };

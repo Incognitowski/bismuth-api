@@ -36,7 +36,9 @@ class ApplicationService {
         val application = applicationRepository.findById(applicationId);
         if (!application.isPresent)
             throw EntityNotFoundException("We were unable to find an application with such identifier.");
-        return application.get();
+        val applicationUnwrapped = application.get();
+        applicationUnwrapped.project = projectService.getById(applicationUnwrapped.projectId!!);
+        return applicationUnwrapped;
     }
 
     fun getAllWithProjectId(projectId: UUID, pageable: Pageable): Page<Application> {
