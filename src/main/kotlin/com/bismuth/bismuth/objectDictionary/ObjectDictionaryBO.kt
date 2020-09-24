@@ -1,6 +1,6 @@
 package com.bismuth.bismuth.objectDictionary
 
-import com.bismuth.bismuth.objectDictionary.exception.ObjectDictionaryValidationException
+import com.bismuth.bismuth.objectDictionary.exceptions.ObjectDictionaryValidationException
 
 class ObjectDictionaryBO {
 
