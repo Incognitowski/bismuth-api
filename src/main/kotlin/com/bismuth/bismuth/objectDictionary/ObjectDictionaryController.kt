@@ -19,6 +19,13 @@ class ObjectDictionaryController {
             @PathVariable("applicationId") applicationId: UUID
     ): List<ObjectDictionary> = objectDictionaryService.getAllVisibleToUser(projectId, applicationId);
 
+    @GetMapping("/{objectDictionaryId}")
+    fun getObjectDictionary(
+            @PathVariable("projectId") projectId: UUID,
+            @PathVariable("applicationId") applicationId: UUID,
+            @PathVariable("objectDictionaryId") objectDictionaryId: UUID
+    ): ObjectDictionary = objectDictionaryService.getObjectDictionary(projectId, applicationId, objectDictionaryId);
+
     @PostMapping
     fun create(
             @PathVariable("projectId") projectId: UUID,

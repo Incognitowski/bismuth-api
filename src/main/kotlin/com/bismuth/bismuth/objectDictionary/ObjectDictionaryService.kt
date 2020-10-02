@@ -50,4 +50,8 @@ class ObjectDictionaryService {
         return createdObjectDictionary;
     }
 
+    fun getObjectDictionary(projectId: UUID, applicationId: UUID, objectDictionaryId: UUID): ObjectDictionary {
+        return objectDictionaryRepository.getOne(objectDictionaryId);
+    }
+
 }
