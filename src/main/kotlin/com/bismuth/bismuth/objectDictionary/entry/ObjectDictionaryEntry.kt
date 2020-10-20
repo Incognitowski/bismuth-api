@@ -20,9 +20,11 @@ data class ObjectDictionaryEntry(
         var objectDictionaryEntryId: UUID?,
         @Column(name = "name")
         var name: String,
+        @Column(name = "description")
+        var description: String,
         @Type(type = "pg-uuid")
         @Column(name = "object_dictionary_id")
-        val objectDictionaryId : UUID?,
+        val objectDictionaryId: UUID?,
         @Column(name = "structure")
         val structure: String?
 ) : OwnableModel();
