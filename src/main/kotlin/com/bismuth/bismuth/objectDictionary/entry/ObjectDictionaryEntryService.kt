@@ -33,14 +33,27 @@ class ObjectDictionaryEntryService {
         objectDictionaryEntry.objectDictionaryEntryId = UUID.randomUUID();
         objectDictionaryEntry.ownedBy = user;
         objectDictionaryEntry.createdBy = user;
+        ObjectDictionaryEntryBO.validate(objectDictionaryEntry);
         // TODO: 14/10/2020  generate event
         return objectDictionaryEntryRepository.save(objectDictionaryEntry);
     }
 
     fun update(objectDictionaryEntryId: UUID, objectDictionaryEntry: ObjectDictionaryEntry): ObjectDictionaryEntry {
-        val user = Auth.getAuthenticatedUser(request);
         // TODO: 14/10/2020 generate event
+        ObjectDictionaryEntryBO.validate(objectDictionaryEntry);
         return objectDictionaryEntryRepository.save(objectDictionaryEntry);
+    }
+
+    fun getAllByObjectDictionaryWithSearchWord(
+            projectId: UUID,
+            applicationId: UUID,
+            objectDictionaryId: UUID,
+            searchWord: String
+    ): List<ObjectDictionaryEntry> {
+        return objectDictionaryEntryRepository.getAllByObjectDictionaryWithSearchWord(
+                objectDictionaryId,
+                "%${searchWord}%"
+        );
     }
 
 }

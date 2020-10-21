@@ -14,4 +14,10 @@ interface ObjectDictionaryEntryRepository : JpaRepository<ObjectDictionaryEntry,
             @Param("objectDictionaryId") objectDictionaryId: UUID
     ): List<ObjectDictionaryEntry>
 
+    @Query(value = "SELECT * FROM object_dictionary_entry WHERE object_dictionary_id = :objectDictionaryId AND (UPPER(description) LIKE UPPER(:searchWord) OR UPPER(name) LIKE UPPER(:searchWord))", nativeQuery = true)
+    fun getAllByObjectDictionaryWithSearchWord(
+            @Param("objectDictionaryId") objectDictionaryId: UUID,
+            @Param("searchWord") searchWord: String
+    ): List<ObjectDictionaryEntry>
+
 }

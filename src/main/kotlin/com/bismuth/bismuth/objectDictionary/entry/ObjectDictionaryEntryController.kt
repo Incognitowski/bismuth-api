@@ -22,6 +22,16 @@ class ObjectDictionaryEntryController {
         return objectDictionaryEntryService.getAllFromObjectDictionary(projectId, applicationId, objectDictionaryId);
     }
 
+    @GetMapping("/search-by-word/{searchWord}")
+    fun getAllByObjectDictionaryWithSearchWord(
+            @PathVariable("projectId") projectId: UUID,
+            @PathVariable("applicationId") applicationId: UUID,
+            @PathVariable("objectDictionaryId") objectDictionaryId: UUID,
+            @PathVariable("searchWord") searchWord: String
+    ): List<ObjectDictionaryEntry> {
+        return objectDictionaryEntryService.getAllByObjectDictionaryWithSearchWord(projectId, applicationId, objectDictionaryId, searchWord);
+    }
+
     @PostMapping
     fun createEntry(
             @PathVariable("projectId") projectId: UUID,
