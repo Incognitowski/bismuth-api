@@ -22,6 +22,25 @@ class ObjectDictionaryEntryController {
         return objectDictionaryEntryService.getAllFromObjectDictionary(projectId, applicationId, objectDictionaryId);
     }
 
+    @GetMapping("/public")
+    fun getAllByObjectDictionaryPublicly(
+            @PathVariable("projectId") projectId: UUID,
+            @PathVariable("applicationId") applicationId: UUID,
+            @PathVariable("objectDictionaryId") objectDictionaryId: UUID
+    ): List<ObjectDictionaryEntry> {
+        return objectDictionaryEntryService.getAllByObjectDictionaryPublicly(projectId, applicationId, objectDictionaryId);
+    }
+
+    @DeleteMapping("/{objectDictionaryEntryId}")
+    fun deleteObjectDictionaryEntry(
+            @PathVariable("projectId") projectId: UUID,
+            @PathVariable("applicationId") applicationId: UUID,
+            @PathVariable("objectDictionaryId") objectDictionaryId: UUID,
+            @PathVariable("objectDictionaryEntryId") objectDictionaryEntryId: UUID
+    ) {
+        return objectDictionaryEntryService.deleteObjectDictionaryEntry(projectId, applicationId, objectDictionaryId, objectDictionaryEntryId);
+    }
+
     @GetMapping("/search-by-word/{searchWord}")
     fun getAllByObjectDictionaryWithSearchWord(
             @PathVariable("projectId") projectId: UUID,
@@ -30,16 +49,6 @@ class ObjectDictionaryEntryController {
             @PathVariable("searchWord") searchWord: String
     ): List<ObjectDictionaryEntry> {
         return objectDictionaryEntryService.getAllByObjectDictionaryWithSearchWord(projectId, applicationId, objectDictionaryId, searchWord);
-    }
-
-    @PostMapping
-    fun createEntry(
-            @PathVariable("projectId") projectId: UUID,
-            @PathVariable("applicationId") applicationId: UUID,
-            @PathVariable("objectDictionaryId") objectDictionaryId: UUID,
-            @RequestBody objectDictionaryEntry: ObjectDictionaryEntry
-    ): ObjectDictionaryEntry {
-        return objectDictionaryEntryService.create(objectDictionaryId, objectDictionaryEntry);
     }
 
     @PutMapping("/{objectDictionaryEntryId}")
@@ -51,6 +60,16 @@ class ObjectDictionaryEntryController {
             @RequestBody objectDictionaryEntry: ObjectDictionaryEntry
     ): ObjectDictionaryEntry {
         return objectDictionaryEntryService.update(objectDictionaryEntryId, objectDictionaryEntry);
+    }
+
+    @PostMapping
+    fun createEntry(
+            @PathVariable("projectId") projectId: UUID,
+            @PathVariable("applicationId") applicationId: UUID,
+            @PathVariable("objectDictionaryId") objectDictionaryId: UUID,
+            @RequestBody objectDictionaryEntry: ObjectDictionaryEntry
+    ): ObjectDictionaryEntry {
+        return objectDictionaryEntryService.create(objectDictionaryId, objectDictionaryEntry);
     }
 
 }

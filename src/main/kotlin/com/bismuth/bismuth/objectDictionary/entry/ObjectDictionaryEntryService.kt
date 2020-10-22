@@ -1,6 +1,8 @@
 package com.bismuth.bismuth.objectDictionary.entry
 
 import com.bismuth.bismuth.framework.authentication.Auth
+import com.bismuth.bismuth.objectDictionary.ObjectDictionaryGuardian
+import com.bismuth.bismuth.objectDictionary.ObjectDictionaryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,7 +17,16 @@ class ObjectDictionaryEntryService {
     lateinit var objectDictionaryEntryRepository: ObjectDictionaryEntryRepository;
 
     @Autowired
+    lateinit var objectDictionaryService : ObjectDictionaryService;
+
+    @Autowired
     lateinit var request: HttpServletRequest;
+
+    fun getAllByObjectDictionaryPublicly(projectId: UUID, applicationId: UUID, objectDictionaryId: UUID): List<ObjectDictionaryEntry> {
+        val objectDictionary = objectDictionaryService.getObjectDictionary(projectId, applicationId, objectDictionaryId);
+        ObjectDictionaryGuardian.protectPublicAccessOf(objectDictionary);
+        return objectDictionaryEntryRepository.getAllByObjectDictionary(objectDictionaryId);
+    }
 
     fun getAllFromObjectDictionary(
             projectId: UUID,
@@ -54,6 +65,20 @@ class ObjectDictionaryEntryService {
                 objectDictionaryId,
                 "%${searchWord}%"
         );
+    }
+
+    fun deleteObjectDictionaryEntry(
+            projectId: UUID,
+            applicationId: UUID,
+            objectDictionaryId: UUID,
+            objectDictionaryEntryId: UUID
+    ) {
+        val objectDictionaryEntryToDeleteSearch = objectDictionaryEntryRepository.findById(objectDictionaryEntryId);
+        if (!objectDictionaryEntryToDeleteSearch.isPresent) return;
+        val objectDictionaryEntry = objectDictionaryEntryToDeleteSearch.get();
+        objectDictionaryEntry.isSoftdeleted = true;
+        objectDictionaryEntry.softdeletedAt = Date();
+        objectDictionaryEntryRepository.save(objectDictionaryEntry);
     }
 
 }
