@@ -53,4 +53,8 @@ class HttpAPIService {
         return httpAPIRepository.getAllVisibleToUser(applicationId, user.userId!!);
     }
 
+    fun getById(httpAPIId: UUID): HttpAPI {
+        return httpAPIRepository.findById(httpAPIId).get();
+    }
+
 }

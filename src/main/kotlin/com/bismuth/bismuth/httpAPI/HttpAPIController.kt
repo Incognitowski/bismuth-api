@@ -26,4 +26,11 @@ class HttpAPIController {
             @PathVariable("applicationId") applicationId: UUID
     ): List<HttpAPI> = httpAPIService.getAllVisibleToUser(projectId, applicationId);
 
+    @GetMapping("/{httpAPIId}")
+    fun getById(
+            @PathVariable("projectId") projectId: UUID,
+            @PathVariable("applicationId") applicationId: UUID,
+            @PathVariable("httpAPIId") httpAPIId: UUID
+    ): HttpAPI = httpAPIService.getById(httpAPIId);
+
 }
