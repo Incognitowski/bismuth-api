@@ -27,8 +27,10 @@ data class HttpAPIRequest(
         var description: String,
         @Column(name = "parameters")
         var parameters: String,
+        @Column(name = "headers")
+        var headers: String,
         @Column(name = "request_bodies")
-        var request_bodies: String,
+        var requestBodies: String,
         @Column(name = "responses")
         var responses: String,
         @Column(name = "http_api_id")
