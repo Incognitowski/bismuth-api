@@ -43,9 +43,10 @@ class HttpAPIRequestService {
     }
 
     fun delete(
-            httpAPIRequest: HttpAPIRequest
+            httpAPIRequestId: UUID
     ) {
-        httpAPIRequestRepository.delete(httpAPIRequest);
+        val httpAPIRequest = httpAPIRequestRepository.findById(httpAPIRequestId);
+        httpAPIRequestRepository.delete(httpAPIRequest.get());
     }
 
     fun searchByWordInHttpAPI(httpAPIId: UUID, searchWord: String): List<HttpAPIRequest> {

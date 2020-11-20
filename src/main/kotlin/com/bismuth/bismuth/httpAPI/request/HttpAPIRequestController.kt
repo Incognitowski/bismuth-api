@@ -46,4 +46,12 @@ class HttpAPIRequestController {
             @RequestBody httpAPIRequest: HttpAPIRequest
     ): HttpAPIRequest = httpAPIRequestService.update(httpAPIRequestId, httpAPIRequest);
 
+    @DeleteMapping("/{httpAPIRequestId}")
+    fun delete(
+            @PathVariable("projectId") projectId: UUID,
+            @PathVariable("applicationId") applicationId: UUID,
+            @PathVariable("httpAPIId") httpAPIId: UUID,
+            @PathVariable("httpAPIRequestId") httpAPIRequestId: UUID
+    ) = httpAPIRequestService.delete(httpAPIRequestId);
+
 }
