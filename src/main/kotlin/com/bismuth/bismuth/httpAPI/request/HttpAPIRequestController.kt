@@ -28,7 +28,6 @@ class HttpAPIRequestController {
             @PathVariable("searchWord") searchWord: String
     ): List<HttpAPIRequest> = httpAPIRequestService.searchByWordInHttpAPI(httpAPIId, searchWord);
 
-
     @PostMapping
     fun create(
             @PathVariable("projectId") projectId: UUID,
