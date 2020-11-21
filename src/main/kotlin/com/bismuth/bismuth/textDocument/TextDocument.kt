@@ -18,7 +18,9 @@ data class TextDocument(
         @org.hibernate.annotations.Type(type = "pg-uuid")
         var textDocumentId: UUID?,
         @Column(name = "application_id")
-        var applicationId: UUID,
+        var applicationId: UUID?,
+        @Column(name = "name")
+        var name: String,
         @Column(name = "content")
         var content: String
 ) : OwnableModel();
